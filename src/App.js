@@ -1,44 +1,63 @@
 import React, { useState } from "react";
+import { summarizeText, translateText, detectLanguage } from "./utils/api";
 import ChatInput from "./components/ChatInput";
 import ChatMessage from "./components/ChatMessage";
-import { detectLanguage, summarizeText, translateText } from "./utils/api";
 
 const App = () => {
-  const [messages, setMessages] = useState([]);
+  const [inputText, setInputText] = useState("");
+  const [outputText, setOutputText] = useState("");
+  const [detectedLanguage, setDetectedLanguage] = useState("");
+  const [summary, setSummary] = useState("");
+  const [translation, setTranslation] = useState("");
+  const [targetLanguage, setTargetLanguage] = useState("en");
 
-  const handleSend = async (text) => {
-    if (!text.trim()) return;
+  const handleSend = async () => {
+    if (!inputText.trim()) return;
 
-    const userMessage = { text, type: "user" };
-    setMessages((prev) => [...prev, userMessage]);
+    setOutputText(inputText);
 
-    try {
-      const detectedLang = await detectLanguage(text);
-      const aiMessage = { text, type: "bot", lang: detectedLang };
-      setMessages((prev) => [...prev, aiMessage]);
-    } catch (error) {
-      console.error(error);
+    // Detect Language
+    const lang = await detectLanguage(inputText);
+    setDetectedLanguage(lang);
+
+    // Clear previous summary & translation
+    setSummary("");
+    setTranslation("");
+  };
+
+  const handleSummarize = async () => {
+    if (detectedLanguage === "en" && outputText.length > 150) {
+      const summaryResult = await summarizeText(outputText);
+      setSummary(summaryResult);
     }
   };
 
-  const handleSummarize = async (text) => {
-    const summary = await summarizeText(text);
-    setMessages((prev) => [...prev, { text: summary, type: "bot", isSummary: true }]);
-  };
-
-  const handleTranslate = async (text, targetLang) => {
-    const translation = await translateText(text, targetLang);
-    setMessages((prev) => [...prev, { text: translation, type: "bot", isTranslation: true }]);
+  const handleTranslate = async () => {
+    const translationResult = await translateText(outputText, targetLanguage);
+    setTranslation(translationResult);
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex-1 overflow-auto p-4">
-        {messages.map((msg, index) => (
-          <ChatMessage key={index} message={msg} onSummarize={handleSummarize} onTranslate={handleTranslate} />
-        ))}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="w-full max-w-xl bg-white p-4 rounded shadow">
+        <ChatInput inputText={inputText} setInputText={setInputText} handleSend={handleSend} />
+        {outputText && <ChatMessage outputText={outputText} />}
+        {detectedLanguage === "en" && outputText.length > 150 && (
+          <button className="mt-2 bg-green-500 text-white px-4 py-2 rounded" onClick={handleSummarize}>
+            Summarize
+          </button>
+        )}
+        <select className="mt-2 p-2 border" onChange={(e) => setTargetLanguage(e.target.value)}>
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+        </select>
+        <button className="mt-2 bg-purple-500 text-white px-4 py-2 rounded" onClick={handleTranslate}>
+          Translate
+        </button>
+        {summary && <p className="mt-2"><strong>Summary:</strong> {summary}</p>}
+        {translation && <p className="mt-2"><strong>Translation:</strong> {translation}</p>}
       </div>
-      <ChatInput onSend={handleSend} />
     </div>
   );
 };

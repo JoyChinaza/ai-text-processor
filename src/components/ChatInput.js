@@ -1,29 +1,18 @@
-import React, { useState } from "react";
-import { PaperAirplaneIcon } from "@heroicons/react/solid";
-
-const ChatInput = ({ onSend }) => {
-  const [text, setText] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSend(text);
-    setText("");
-  };
-
+const ChatInput = ({ inputText, setInputText, handleSend }) => {
   return (
-    <form onSubmit={handleSubmit} className="flex p-4 bg-gray-800">
+    <div>
       <textarea
-        className="flex-1 p-2 bg-gray-700 text-white rounded-md"
-        rows="2"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Type a message..."
+        className="w-full p-2 border rounded"
+        placeholder="Enter text..."
+        value={inputText}
+        onChange={(e) => setInputText(e.target.value)}
       />
-      <button type="submit" className="ml-2 p-2 bg-blue-500 rounded-md">
-        <PaperAirplaneIcon className="h-6 w-6 text-white" />
+      <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded" onClick={handleSend}>
+        Send
       </button>
-    </form>
+    </div>
   );
 };
 
 export default ChatInput;
+
