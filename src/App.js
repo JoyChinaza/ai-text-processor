@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import { summarizeText, translateText, detectLanguage } from "./utils/api";
 import ChatInput from "./components/ChatInput";
@@ -36,8 +37,13 @@ const App = () => {
     const translationResult = await translateText(outputText, targetLanguage);
     setTranslation(translationResult);
   };
+=======
+import React from "react";
+import TextProcessor from "./components/TextProcessor";
+>>>>>>> ef4c994 (an ai text processor)
 
   return (
+<<<<<<< HEAD
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="w-full max-w-xl bg-white p-4 rounded shadow">
         <ChatInput inputText={inputText} setInputText={setInputText} handleSend={handleSend} />
@@ -58,6 +64,10 @@ const App = () => {
         {summary && <p className="mt-2"><strong>Summary:</strong> {summary}</p>}
         {translation && <p className="mt-2"><strong>Translation:</strong> {translation}</p>}
       </div>
+=======
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <TextProcessor />
+>>>>>>> ef4c994 (an ai text processor)
     </div>
   );
 };

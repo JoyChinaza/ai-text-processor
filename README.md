@@ -1,13 +1,23 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # ai-text-processor
 An AI Text Processor Project 
 =======
 # Getting Started with Create React App
+=======
+# AI Text Processor (React + TailwindCSS)
+>>>>>>> ef4c994 (an ai text processor)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Features
+- Detects language of input text
+- Summarizes long text
+- Translates text into multiple languages
+- Built with React.js and Tailwind CSS
 
-## Available Scripts
+## Installation
+1. Clone the repository:
 
+<<<<<<< HEAD
 In the project directory, you can run:
 
 ### `npm start`
@@ -73,3 +83,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 >>>>>>> 9eaba9a (Initialize project using Create React App)
+=======
+>>>>>>> ef4c994 (an ai text processor)
